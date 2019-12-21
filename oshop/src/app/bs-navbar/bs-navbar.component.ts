@@ -1,3 +1,4 @@
+import { AppUser } from './../models/app-user';
 import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -14,11 +15,18 @@ export class BsNavbarComponent  {
   // user: firebase.User;
   // user$: Observable<firebase.User>; // this is to solve the unsubscribe problem
 
+  appUser: AppUser;
+  // appUser is to replace auth.user$ in order to avoid using async to desplay in template
+  // as async detects the switchMap change infinitly and crashes browser
+
   constructor( private auth: AuthService) {
     // if we use user
     // afAuth.authState.subscribe(user => this.user = user);
 
     // this.user$ = afAuth.authState;
+
+    auth.appUser$.subscribe(appUser => this.appUser = appUser);
+    // since we don't have multiple instance of this object we don't need to unsubscribe
   }
 
 logout() {
