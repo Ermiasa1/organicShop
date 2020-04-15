@@ -14,7 +14,7 @@ import { switchMap } from 'rxjs/operators';
 export class AuthService {
   // user: firebase.User;
   user$: Observable<firebase.User>; // this is to solve the unsubscribe problem
-
+  // But we are leaking our implimentation to out side
   constructor(
     private userService: UserService,
     private afAuth: AngularFireAuth,

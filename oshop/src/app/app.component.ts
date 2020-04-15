@@ -12,12 +12,16 @@ export class AppComponent {
   constructor(private userService: UserService, private auth: AuthService, router: Router) {
     // retriving the stored url and redirecting to the url
     auth.user$.subscribe(user => {
-      if (user) {
-        userService.save(user);  // the user may change the name in google so we hava updated name
+      if (!user) return;
 
-        let returnUrl = localStorage.getItem('returnUrl');
-        router.navigateByUrl(returnUrl);
-      }
+      userService.save(user);  // the user may change the name in google so we hava updated name
+
+      let returnUrl = localStorage.getItem('returnUrl');
+      if (!returnUrl) return;
+
+      localStorage.removeItem('returnUrl');
+      router.navigateByUrl(returnUrl);
+
     });
 
   }

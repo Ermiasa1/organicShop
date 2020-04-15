@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
-// importing take to avoid unsubscribtion by simply taking one value from 
+// importing take to avoid unsubscribtion by simply taking one value from
 // the observable and the observaable will complete we don't need to unsubscribe
 // as the observable would not emmit any value
 
@@ -23,9 +23,15 @@ export class ProductFormComponent implements OnInit {
     private router: Router) {
     this.categories$ = categoryService.getCategories();
 
+    // this.id = this.route.snapshot.paramMap.get('id');
     this.id = this.route.snapshot.paramMap.get('id');
-    if (this.id) this.productService.get(this.id).pipe(take(1)).subscribe(p => this.product = p);
+    console.log(this.id);
+    if (this.id) this.productService.get(this.id).pipe(take(1)).subscribe(p => {
+      this.product = p;
+      console.log(this.product);
+    });
     // since we used take one item no need to unsubscribe
+    
 
    }
    save(product) {
